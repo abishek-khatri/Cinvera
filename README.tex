@@ -1,0 +1,43 @@
+\documentclass[11pt]{article}
+\usepackage[margin=2.2cm]{geometry}
+\usepackage{enumitem,hyperref}
+\setlist{itemsep=2pt,topsep=4pt}
+\title{Vanish Cam -- build and install guide}
+\author{}\date{}
+\begin{document}\maketitle
+
+\section*{What you get}
+A Windows app with a small control window. It shows up in Google Meet, Zoom, Teams and Discord as a camera called \textbf{Vanish Camera}. No OBS Studio is needed: the installer registers a small virtual-camera driver (Unity Capture, MIT licence) itself.
+
+\section*{For you: build it (on your Windows PC)}
+\begin{enumerate}
+\item Install \textbf{Python 3.11 or 3.12} from python.org (tick ``Add to PATH'').
+\item Optional but needed for the one-click installer: install \textbf{Inno Setup 6} (free, jrsoftware.org).
+\item Open the \texttt{VanishCam} folder and double-click \texttt{build.bat}. It creates its own environment, installs everything, builds the app, and (if Inno Setup is present) the installer.
+\item Results: \texttt{dist\textbackslash VanishCam\textbackslash VanishCam.exe} (portable folder) and \texttt{installer\_output\textbackslash VanishCam-Setup.exe} (send this to friends).
+\end{enumerate}
+If \texttt{build.bat} stops with an error, copy the last 20 lines and send them to me.
+
+\section*{For your friends: install and use}
+\begin{enumerate}
+\item Run \texttt{VanishCam-Setup.exe}. Windows will ask for permission once (it installs the camera driver). If SmartScreen warns, choose \emph{More info} $\rightarrow$ \emph{Run anyway} (the app is not code-signed).
+\item Open \textbf{Vanish Cam}. Close other apps that use the webcam. Press \textbf{1. Start camera}.
+\item Press \textbf{2. Capture background} and step completely out of the picture for about 5 seconds. Keep the camera and lights still.
+\item Step back in. Press \textbf{3. Vanish / Reappear}, use the hotkey, or tick ``Vanish when I snap my fingers''.
+\item In Meet / Zoom / Teams choose the camera \textbf{Vanish Camera}. Leave the Vanish Cam window open (minimised is fine) during the call.
+\end{enumerate}
+Hotkeys work while a call has focus: Ctrl+Alt+B background, Ctrl+Alt+V vanish, Ctrl+Alt+E effect, Ctrl+Alt+S snap on/off.
+
+\section*{Troubleshooting}
+\begin{itemize}
+\item \textbf{``Vanish Camera'' not in the list:} press \emph{Repair camera driver} in the app, accept the Windows prompt, restart the call app.
+\item \textbf{Still visible / outline:} recapture the background (nobody in view, lights as they will be).
+\item \textbf{Choppy video:} run \texttt{VanishCam-console.exe --camtest} and send the output; use \texttt{--res 960x540} on slow PCs.
+\item \textbf{Snap not detected:} \texttt{VanishCam-console.exe --snap-test}; raise sensitivity in the window.
+\item \textbf{Log file:} \texttt{\%APPDATA\%\textbackslash VanishCam\textbackslash log.txt}.
+\item \textbf{Uninstall:} Windows Settings $\rightarrow$ Apps. This also removes the camera driver.
+\end{itemize}
+
+\section*{Honest limits}
+Tested here on Linux with simulated cameras, microphones and a virtual display (engine, pipeline, window, frozen build and MediaPipe model bundling). \textbf{Not tested:} the Windows build itself, the Inno installer, driver registration, and Meet/Zoom/Teams seeing ``Vanish Camera''. Expect a round of fixes after the first Windows build. The app is not code-signed, so SmartScreen and some antivirus programs may warn. The driver is bundled under the MIT licence (see \texttt{driver\textbackslash LICENSE-UnityCapture.txt}).
+\end{document}
